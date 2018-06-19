@@ -37,7 +37,11 @@ public class MTTest {
         runWith(6);
         runWith(8);
         runWith(NUM_CORES + 1);
+        runWith(20);
+        runWith(50);
         runWith(100);
+        runWith(200);
+        runWith(500);
         runWith(1000);
         //runWith(10000);
     }
@@ -49,7 +53,6 @@ public class MTTest {
             return;
         }
 
-        long average = 0;
         long start = System.nanoTime();
         for (int run = 0; run < 10; run++) { //run 10 times and take the average
             ExecutorService executor = Executors.newFixedThreadPool(poolSize);
@@ -66,7 +69,7 @@ public class MTTest {
             executor.shutdown();
             executor.awaitTermination(100, TimeUnit.SECONDS);
         }
-        System.gc();
+        //System.gc();
         long end = System.nanoTime();
         log.info(String.format("Pool size %d : %d ms", poolSize, (end-start) / 10 / 1000000 ));
     }
