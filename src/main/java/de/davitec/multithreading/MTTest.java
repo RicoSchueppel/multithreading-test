@@ -1,5 +1,6 @@
 package de.davitec.multithreading;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,11 +15,18 @@ public class MTTest {
     private static final Logger log = LoggerFactory.getLogger(MultithreadingApplication.class);
 
     private final static int NUM_CORES = Runtime.getRuntime().availableProcessors();
-    private final static long TOTAL_COUNT = 1000000000;
+    private final static long TOTAL_COUNT = 10000;
+
+    List<String> readable_input = new ArrayList<>();
 
     MTTest() throws InterruptedException {
         log.info("hello world");
 
+        for (int i = 0; i < 100; i++){
+            String generatedString = RandomStringUtils.random(30, true, true);
+            readable_input.add(generatedString);
+        }
+        log.info(String.format("generated input as array of %d string like %s", readable_input.size(), readable_input.get(0)));
         //warmup
         runWith(1);
 
@@ -47,7 +55,7 @@ public class MTTest {
             ExecutorService executor = Executors.newFixedThreadPool(poolSize);
             List<MyThread> threads = new ArrayList<>();
             for (int i = 1; i <= poolSize; i++) {
-                MyThread thread = new MyThread(TOTAL_COUNT / poolSize);
+                MyThread thread = new MyThread(TOTAL_COUNT / poolSize, readable_input);
                 threads.add(thread);
             }
 

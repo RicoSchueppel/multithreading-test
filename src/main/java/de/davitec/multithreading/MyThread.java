@@ -1,23 +1,25 @@
 package de.davitec.multithreading;
 
+import java.util.List;
+
 public class MyThread extends Thread {
 
     private long count_to;
-    private long result;
+    private String result;
+    List<String> input;
 
-    MyThread(long count_to){
+    MyThread(long count_to, List<String> input){
         this.count_to = count_to;
+        this.input = input;
     }
 
     public void run() {
-        int count = 0;
         for (int i = 0; i < count_to; i++) {
-            count += i;
+            result += input.get(i % 100);
         }
-        result = count;
     }
 
-    public long getResult() {
+    public String getResult() {
         return result;
     }
 }
